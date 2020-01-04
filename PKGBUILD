@@ -4,11 +4,16 @@
 
 pkgname=nvidia-dkms-fix-drm-drmph-not-found
 pkgver=440.44
-pkgrel=8
+pkgrel=8.1
 pkgdesc="NVIDIA drivers for linux, fix 5.5 or higher <drm/drmP.h> not found"
 arch=('x86_64')
 url="https://www.nvidia.com/"
+depends=('dkms' "nvidia-utils=$pkgver" 'libglvnd')
 makedepends=("nvidia-utils=${pkgver}" 'libglvnd' 'linux-headers')
+optdepends=('linux-headers: Build the module for Arch kernel'
+            'linux-lts-headers: Build the module for LTS Arch kernel')
+provides=("nvidia=$pkgver")
+conflicts+=('nvidia')
 license=('custom')
 options=('!strip')
 _pkg="NVIDIA-Linux-x86_64-${pkgver}"
@@ -49,13 +54,6 @@ build() {
 }
 
 package() {
-    pkgdesc="NVIDIA driver sources for linux"
-    depends=('dkms' "nvidia-utils=$pkgver" 'libglvnd')
-    optdepends=('linux-headers: Build the module for Arch kernel'
-                'linux-lts-headers: Build the module for LTS Arch kernel')
-    provides=("nvidia=$pkgver")
-    conflicts+=('nvidia')
-
     cd ${_pkg}
 
     install -dm 755 "${pkgdir}"/usr/src

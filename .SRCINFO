@@ -1,21 +1,13 @@
 pkgbase = nvidia-dkms-fix-drm-drmph-not-found
 	pkgdesc = NVIDIA drivers for linux, fix 5.5 or higher <drm/drmP.h> not found
 	pkgver = 440.44
-	pkgrel = 8
+	pkgrel = 8.1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = custom
 	makedepends = nvidia-utils=440.44
 	makedepends = libglvnd
 	makedepends = linux-headers
-	options = !strip
-	source = https://us.download.nvidia.com/XFree86/Linux-x86_64/440.44/NVIDIA-Linux-x86_64-440.44.run
-	source = kernel-5.5.patch
-	sha512sums = c0c0e19cdb82d47575adbcf46e23580977cf7a5097edfb9d76464c2e678a44f556d8c2d0d49515a86b6765f57176460193c6951927e24c278e6a7f411f89f26b
-	sha512sums = 55452108bb63ef19b4c64c4e1f58da60a10ac9bd95d077a4472e3557be7e2d87182274e430260c88e36f915be467a97eb63d145fbdea293525e96db503953d33
-
-pkgname = nvidia-dkms-fix-drm-drmph-not-found
-	pkgdesc = NVIDIA driver sources for linux
 	depends = dkms
 	depends = nvidia-utils=440.44
 	depends = libglvnd
@@ -23,4 +15,11 @@ pkgname = nvidia-dkms-fix-drm-drmph-not-found
 	optdepends = linux-lts-headers: Build the module for LTS Arch kernel
 	provides = nvidia=440.44
 	conflicts = nvidia
+	options = !strip
+	source = https://us.download.nvidia.com/XFree86/Linux-x86_64/440.44/NVIDIA-Linux-x86_64-440.44.run
+	source = kernel-5.5.patch
+	sha512sums = c0c0e19cdb82d47575adbcf46e23580977cf7a5097edfb9d76464c2e678a44f556d8c2d0d49515a86b6765f57176460193c6951927e24c278e6a7f411f89f26b
+	sha512sums = 55452108bb63ef19b4c64c4e1f58da60a10ac9bd95d077a4472e3557be7e2d87182274e430260c88e36f915be467a97eb63d145fbdea293525e96db503953d33
+
+pkgname = nvidia-dkms-fix-drm-drmph-not-found
 
