@@ -2,23 +2,28 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Thomas Baechler <thomas@archlinux.org>
 
-pkgbase=nvidia
-pkgname=(nvidia nvidia-dkms)
+pkgname=nvidia-dkms-fix-drm-drmph-not-found
 pkgver=440.44
 pkgrel=8
-pkgdesc="NVIDIA drivers for linux"
+pkgdesc="NVIDIA drivers for linux, fix 5.5 or higher <drm/drmP.h> not found"
 arch=('x86_64')
 url="https://www.nvidia.com/"
 makedepends=("nvidia-utils=${pkgver}" 'libglvnd' 'linux-headers')
 license=('custom')
 options=('!strip')
 _pkg="NVIDIA-Linux-x86_64-${pkgver}"
-source=("https://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run")
-sha512sums=('c0c0e19cdb82d47575adbcf46e23580977cf7a5097edfb9d76464c2e678a44f556d8c2d0d49515a86b6765f57176460193c6951927e24c278e6a7f411f89f26b')
+source=("https://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run"
+  "kernel-5.5.patch")
+sha512sums=('c0c0e19cdb82d47575adbcf46e23580977cf7a5097edfb9d76464c2e678a44f556d8c2d0d49515a86b6765f57176460193c6951927e24c278e6a7f411f89f26b'
+            '55452108bb63ef19b4c64c4e1f58da60a10ac9bd95d077a4472e3557be7e2d87182274e430260c88e36f915be467a97eb63d145fbdea293525e96db503953d33')
 
 prepare() {
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
+
+    # Fix linux 5.5 (or higher) <drm/drmP.h> not found
+    # Patch from https://gitlab.com/snippets/1923197
+    patch -p1 <"${srcdir}/kernel-5.5.patch"
 
     cp -a kernel kernel-dkms
     cd kernel-dkms
@@ -43,23 +48,7 @@ build() {
     make SYSSRC=/usr/src/linux module
 }
 
-package_nvidia() {
-    pkgdesc="NVIDIA drivers for linux"
-    depends=('linux' "nvidia-utils=${pkgver}" 'libglvnd')
-
-    _extradir="/usr/lib/modules/$(</usr/src/linux/version)/extramodules"
-    install -Dt "${pkgdir}${_extradir}" -m644 \
-      "${srcdir}/${_pkg}/kernel"/nvidia{,-modeset,-drm,-uvm}.ko
-
-    find "${pkgdir}" -name '*.ko' -exec gzip -n {} +
-
-    echo "blacklist nouveau" |
-        install -Dm644 /dev/stdin "${pkgdir}/usr/lib/modprobe.d/${pkgname}.conf"
-
-    install -Dt "${pkgdir}/usr/share/licenses/${pkgname}" -m644 "${srcdir}/${_pkg}/LICENSE"
-}
-
-package_nvidia-dkms() {
+package() {
     pkgdesc="NVIDIA driver sources for linux"
     depends=('dkms' "nvidia-utils=$pkgver" 'libglvnd')
     optdepends=('linux-headers: Build the module for Arch kernel'
