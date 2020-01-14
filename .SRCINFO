@@ -1,7 +1,7 @@
 pkgbase = nvidia-dkms-fix-drm-drmph-not-found
 	pkgdesc = NVIDIA drivers for linux, fix 5.5 or higher <drm/drmP.h> not found
 	pkgver = 440.44
-	pkgrel = 10
+	pkgrel = 11
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = custom
