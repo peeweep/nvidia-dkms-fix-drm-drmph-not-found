@@ -4,7 +4,7 @@
 
 pkgname=nvidia-dkms-fix-drm-drmph-not-found
 pkgver=440.44
-pkgrel=12
+pkgrel=13
 pkgdesc="NVIDIA drivers for linux, fix 5.5 or higher <drm/drmP.h> not found"
 arch=('x86_64')
 url="https://www.nvidia.com/"
