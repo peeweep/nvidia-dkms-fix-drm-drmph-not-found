@@ -1,0 +1,7 @@
+A archlinux PKGBUILD, fix linux 5.5 (or higher) <drm/drmP.h> not found for nvidia dkms modules.
+
+Because of archlinux's [testing] has added this patch since 440.44-16, I orphan this package.
+
+Ref: https://devtalk.nvidia.com/default/topic/1068332
+Ref: https://gitlab.com/snippets/1923197
+Ref: https://git.archlinux.org/svntogit/packages.git/commit/trunk/PKGBUILD?h=packages/nvidia&id=4a4925b
